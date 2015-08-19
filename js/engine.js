@@ -27,6 +27,14 @@ var Engine = (function(global) {
 
     canvas.width = 505;
     canvas.height = 606;
+    // added this:
+    canvas.boundaries = {
+    'up': 0,
+    'right': 400,
+    'down': 400,
+    'left': 0
+  };
+  // back to the basics
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -95,6 +103,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        star.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -148,11 +157,14 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        // added:
+        start.render();
+        star.render();
+        player.render();
+        // back to basic
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
-        player.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -172,7 +184,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        // added:
+        'images/Star.png',
+        'images/Selector.png'
+        //back to basics
     ]);
     Resources.onReady(init);
 
@@ -180,5 +196,8 @@ var Engine = (function(global) {
      * object when run in a browser) so that developer's can use it more easily
      * from within their app.js files.
      */
+     // added
+    global.canvas = canvas;
+    // back to basics
     global.ctx = ctx;
 })(this);

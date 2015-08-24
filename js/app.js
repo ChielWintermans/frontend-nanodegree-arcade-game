@@ -5,22 +5,17 @@
 */
 
 // global variables
-
 var playerScore = 0;
-
 // common functions
-
 function getDifficulty() {
   var step = 25;
   return playerScore * step;
 }
-
 function randomInteger(minimum, maximum) {
   return Math.floor(Math.random()*(maximum - minimum + 1) + minimum);
 }
 
 //functions for variation in enemy movement
-
 function getRandomSpeed() {
   return randomInteger(100, 200);
 }
@@ -29,7 +24,6 @@ function selectRandom(array) {
 }
 
 // Actor (prototype for all classes)
-
 var Actor = function(x, y, sprite) {
   this.sprite = sprite;
   this.x = x;
@@ -40,7 +34,6 @@ Actor.prototype.render = function() {
 };
 
 // Enemy
-
 var Enemy = function(x, y, sprite) {
   sprite = 'images/enemy-bug.png';
   Actor.call(this, x, y, sprite);
@@ -69,7 +62,6 @@ Enemy.prototype.update = function(dt) {
 };
 
 // Player
-
 var Player = function(x, y, sprite) {
   sprite = 'images/char-boy.png';
   x = 200;
@@ -131,10 +123,9 @@ Player.prototype.checkCollision = function (object) {
           this.x < object.x + object.hitBox.x/2 &&
           this.y > object.y - object.hitBox.y/2 &&
           this.y < object.y + object.hitBox.y/2);
-}
+};
 
 // Star
-
 var Star = function(x, y, sprite) {
   sprite = 'images/Star.png';
   x = selectRandom(this.startX);
@@ -160,7 +151,6 @@ Star.prototype.update = function(dt) {
 };
 
 // Start area
-
 var Start = function(x, y, sprite) {
   sprite = 'images/Selector.png';
   x = 200;
@@ -196,4 +186,3 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 });
-

@@ -1,45 +1,15 @@
-/*
-
-// Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-}
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-}
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
-*/
-
 /* to do list:
   - add character select screen + start button
   - add secondary target/star collection point 
   - game over on impact
 */
 
-// this is custom code
 // global variables
+
 var playerScore = 0;
 
 // common functions
+
 function getDifficulty() {
   var step = 25;
   return playerScore * step;
@@ -58,14 +28,6 @@ function selectRandom(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-//check if player gets hit by bugs or reaches prize:
-
-function checkCollision(object, player) {
-  return (player.x > object.x - object.hitBox.x/2 &&
-          player.x < object.x + object.hitBox.x/2 &&
-          player.y > object.y - object.hitBox.y/2 &&
-          player.y < object.y + object.hitBox.y/2);
-}
 // Actor (prototype for all classes)
 
 var Actor = function(x, y, sprite) {
@@ -78,6 +40,7 @@ Actor.prototype.render = function() {
 };
 
 // Enemy
+
 var Enemy = function(x, y, sprite) {
   sprite = 'images/enemy-bug.png';
   Actor.call(this, x, y, sprite);
@@ -97,7 +60,7 @@ Enemy.prototype.update = function(dt) {
     this.speed = getRandomSpeed();
   }
   // handle collisions with player
-  if (checkCollision(this, player)) {
+  if (player.checkCollision(this)) {
     player.reset();
     console.log("ew bugs");
     playerScore = 0;
@@ -106,6 +69,7 @@ Enemy.prototype.update = function(dt) {
 };
 
 // Player
+
 var Player = function(x, y, sprite) {
   sprite = 'images/char-boy.png';
   x = 200;
@@ -162,8 +126,15 @@ Player.prototype.reset = function() {
   this.x = 200;
   this.y = 400;
 };
+Player.prototype.checkCollision = function (object) {
+  return (this.x > object.x - object.hitBox.x/2 &&
+          this.x < object.x + object.hitBox.x/2 &&
+          this.y > object.y - object.hitBox.y/2 &&
+          this.y < object.y + object.hitBox.y/2);
+}
 
 // Star
+
 var Star = function(x, y, sprite) {
   sprite = 'images/Star.png';
   x = selectRandom(this.startX);
@@ -177,7 +148,7 @@ Star.prototype.startY = [68, 151, 234];
 Star.prototype.constructor = Star;
 Star.prototype.update = function(dt) {
   // handle collisions with player
-    if (checkCollision(this, player)) {
+    if (player.checkCollision(this)) {
         player.reset();
         console.log("yay winner");
         this.x = selectRandom(this.startX);
@@ -189,6 +160,7 @@ Star.prototype.update = function(dt) {
 };
 
 // Start area
+
 var Start = function(x, y, sprite) {
   sprite = 'images/Selector.png';
   x = 200;
